@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_information"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:orderInCategory="1"
+        android:title="@string/information" />
+    <item
+        android:id="@+id/navigation_dragmeter"
+        android:icon="@drawable/ic_baseline_directions_car_24"
+        android:orderInCategory="2"
+        android:title="@string/dragmeter" />
+</menu>

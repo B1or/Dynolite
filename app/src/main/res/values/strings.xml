@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">ELM7</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="information_fragment_label">ELM7: Information</string>
+    <string name="dragmeter_fragment_label">ELM7: Dragmeter</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment</string>
+    <string name="information">Information</string>
+    <string name="dragmeter">Dragmeter</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="bluetooth_not_support">This device doesn\'t support Bluetooth. The application will be closed.</string>
+    <string name="ok">OK</string>
+    <string name="bluetooth_enabled">Enabling Bluetooth succeeds</string>
+    <string name="bluetooth_not_enabled">Couldn\'t enable Bluetooth. The application will be closed.</string>
+    <string name="list_paired_devices">List paired ELM327 devices</string>
+    <string name="select_paired_device">Select a device from the list of paired devices ELM327:</string>
+    <string name="choose_unpaired_devices">Choose from unpaired devices</string>
+    <string name="connected">Connected to ELM327 device.</string>
+    <string name="disconnect">Disconnect from ELM327 device.</string>
+    <string name="connecting">Connecting to ELM327 device.</string>
+    <string name="list_unpaired_devices">List of detected devices ELM327</string>
+    <string name="select_unpaired_device">Select a device from the list detected devices ELM327:</string>
+    <string name="vin_">VIN:</string>
+    <string name="rpm_">RPM:</string>
+    <string name="speed_">Speed:</string>
+    <string name="init_success">Initialization is successful.</string>
+    <string name="init_fail">Initialization failed.</string>
+    <string name="device_">Device:</string>
+    <string name="version_">Version:</string>
+    <string name="error">Error</string>
+    <string name="test_elm">Test ELM</string>
+    <string name="reset_elm">Reset ELM</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="enter_weight_">Enter weight auto (kg):</string>
+</resources>

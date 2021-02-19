@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ELM7</string>
+    <string name="action_settings">Настройки</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="information_fragment_label">ЭЛМ7: Информация</string>
+    <string name="dragmeter_fragment_label">ЭЛМ7: Драгметр</string>
+
+    <string name="hello_first_fragment">Привет первый фрагмент</string>
+    <string name="hello_second_fragment">Привет второй фрагмент</string>
+    <string name="information">Информация</string>
+    <string name="dragmeter">Драгметр</string>
+    <string name="bluetooth">Блютуз</string>
+    <string name="bluetooth_not_support">Это устройство не поддерживает Bluetooth. Приложение будет закрыто.</string>
+    <string name="ok">OK</string>
+    <string name="bluetooth_enabled">Включение Bluetooth успешно</string>
+    <string name="bluetooth_not_enabled">Не смогли включить Bluetooth. Приложение будет закрыто.</string>
+    <string name="list_paired_devices">Список подключенных ELM327 устройств</string>
+    <string name="select_paired_device">Выберите устройство из списка подключенных устройств ELM327:</string>
+    <string name="choose_unpaired_devices">Выбрать из неспаренных устройств</string>
+    <string name="connected">Подключено к устройству ELM327.</string>
+    <string name="disconnect">Отключено от устройства ELM327.</string>
+    <string name="connecting">Подключается к устройству ELM327.</string>
+    <string name="list_unpaired_devices">Список обнаруженных устройств ELM327</string>
+    <string name="select_unpaired_device">Выберите устройство из списка обнаруженных устройств ELM327:</string>
+    <string name="vin_">VIN:</string>
+    <string name="rpm_">Об/мин:</string>
+    <string name="speed_">Скорость:</string>
+    <string name="init_success">Инициализация успешна.</string>
+    <string name="init_fail">Инициализация неуспешна.</string>
+    <string name="device_">Устройство:</string>
+    <string name="version_">Версия:</string>
+    <string name="error">Ошибка</string>
+    <string name="test_elm">Тест ELM</string>
+    <string name="reset_elm">Сброс ELM</string>
+    <string name="start">Старт</string>
+    <string name="stop">Стоп</string>
+    <string name="enter_weight_">Введите массу авто (кг):</string>
+</resources>
