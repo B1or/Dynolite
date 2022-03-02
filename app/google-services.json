@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "977032110702",
+    "project_id": "dynolite-7ee87",
+    "storage_bucket": "dynolite-7ee87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977032110702:android:ec10ced288ec11e8fafc7f",
+        "android_client_info": {
+          "package_name": "ru.ircoder.dynolite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977032110702-k60j232g6j0oh8km1dev7pbcigo9fkvc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6_9S8_EFaOA4-mAZfoDl4MrxJ3iddOII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977032110702-k60j232g6j0oh8km1dev7pbcigo9fkvc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dynolite</string>
+    <string name="title_users">Пользователи</string>
+    <string name="title_garage">Гараж</string>
+    <string name="title_settings">Настройки</string>
+    <string name="close_app">Закрыть приложение</string>
+    <string name="no_permission">Не дано необходимое разрешение</string>
+    <string name="no_permissions">Не даны необходимые разрешения</string>
+    <string name="need_permission">Нужно разрешение</string>
+    <string name="need_permissions">Нужны разрешения</string>
+    <string name="need_permission_text">Для работы приложения обязательно нужно разрешене на определение местоположения.</string>
+    <string name="need_permissions_text">Для работы приложения обязательно нужны разрешения на использование bluetooth.</string>
+    <string name="request_permission">Запросить разрешение</string>
+    <string name="request_permissions">Запросить разрешения</string>
+    <string name="hardware">Аппаратный адрес Bluetooth-устройства</string>
+    <string name="choose_from_paired">Выберите из сопряжённых устройств</string>
+    <string name="choose_from_found">Выберите из найденных устройств</string>
+    <string name="device_search">Поиск устройств</string>
+    <string name="disconnect">Отключить bluetooth</string>
+    <string name="exit">Выход</string>
+    <string name="error_device_to_default">Ошибка сброса устройства до параметров по умолчанию</string>
+    <string name="test_crash">Тестовый сбой</string>
+    <string name="not_signed_in">Не авторизован</string>
+    <string name="error_authentication">Ошибка аутентификации</string>
+    <string name="add_car">Добавить авто</string>
+</resources>
