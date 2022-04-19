@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -32,6 +33,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import ru.ircoder.dynolite.databinding.ActivityMainBinding
 import java.util.*
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val model: SharedViewModel by viewModels()
+    private lateinit var navController: NavController
     private var bluetoothService: BluetoothService? = null
     private val intentService: Intent by lazy { Intent(this, BluetoothService::class.java) }
     private val localBroadcastManager: LocalBroadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     private val listCommand: ArrayList<String> = arrayListOf()
     private var collectedResponse: String = ""
     private lateinit var menuItemDisconnect: MenuItem
-    private val looperCommand = COMMAND_SPEED
+    private val looperCommand = COMMAND_SPEED_RPM
     private var currentCommand = ""
 
     private val enableBluetoothLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -93,14 +96,14 @@ class MainActivity : AppCompatActivity() {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as BluetoothService.LocalBinder
             bluetoothService = binder.getService()
-            localBroadcastManager.registerReceiver(registerMessages, IntentFilter(SERVICE_MESSAGES))
+            localBroadcastManager.registerReceiver(receiverMessages, IntentFilter(SERVICE_MESSAGES))
             if (bluetoothService!!.isConnected()) {
                 connected()
             }
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
-            localBroadcastManager.unregisterReceiver(registerMessages)
+            localBroadcastManager.unregisterReceiver(receiverMessages)
             bluetoothService = null
         }
     }
@@ -128,16 +131,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val registerMessages = object : BroadcastReceiver() {
+    private val receiverMessages = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent != null) {
                 when (intent.getStringExtra("type")) {
                     MESSAGE_CONNECTED -> {
-                        model.consoleBluetooth("MESSAGE_CONNECTED")
                         connected()
                     }
                     MESSAGE_DISCONNECTED -> {
-                        model.consoleBluetooth("MESSAGE_DISCONNECTED")
                         disconnectedUI()
                     }
                     MESSAGE_READ -> {
@@ -147,7 +148,6 @@ class MainActivity : AppCompatActivity() {
                         read()
                     }
                     MESSAGE_READ_ERROR -> {
-                        model.consoleBluetooth("READ_ERROR")
                         when (bluetoothService?.isConnected()) {
                             false -> disconnectedUI()
                             true -> {
@@ -164,7 +164,6 @@ class MainActivity : AppCompatActivity() {
                     }
                     MESSAGE_WRITE_ERROR -> {
                         val data = showString(intent.getStringExtra("data") ?: "")
-                        model.consoleBluetooth("error - write: $data")
                     }
                 }
             }
@@ -177,17 +176,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         val navView: BottomNavigationView = binding.navView
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_users, R.id.navigation_garage, R.id.navigation_settings))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         intentService.also { intent ->
             bindService(intent, connection, Context.BIND_AUTO_CREATE)
         }
-        model.textSpeed.observe(this) { speed ->
-            binding.tvSpeedo.text = speed.toString()
+        model.drag.observe(this) { speedRpm ->
+            "${speedRpm.speed} ${speedRpm.rpm}".also { binding.tvSpeedo.text = it }
         }
-        model.textUsers("Start app")
         binding.fabBluetooth.setOnClickListener {
             binding.fabBluetooth.isEnabled = false
             checkPermissions()
@@ -203,7 +201,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        localBroadcastManager.unregisterReceiver(registerMessages)
+        localBroadcastManager.unregisterReceiver(receiverMessages)
         unbindService(connection)
         bluetoothService = null
         super.onDestroy()
@@ -224,8 +222,13 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.exit -> {
                 stopService(intentService)
+                throw RuntimeException("Test Crash 4") // Force a crash
                 finish()
                 true
+            }
+            android.R.id.home -> {
+                navController.popBackStack()
+                return true
             }
             else -> super.onOptionsItemSelected(item)
         }
@@ -463,11 +466,6 @@ class MainActivity : AppCompatActivity() {
         listCommand.add(COMMAND_LINEFEED_ON)
         listCommand.add(COMMAND_ECHO_ON)
         write("")
-/*
-        giveCommand(COMMAND_DEFAULT)
-        giveCommand(COMMAND_LINEFEED_ON)
-        giveCommand(COMMAND_ECHO_ON)
-*/
     }
 
     private fun executeCommand() {  // +
@@ -497,11 +495,19 @@ class MainActivity : AppCompatActivity() {
             }
             else -> {
                 when {
+                    line.length > 10 && line.substring(0, 5) == RESPONSE_SPEED && line.substring(8, 11) == RESPONSE_AND_RPM -> {
+                        if (line.length > 16) {
+                            val speed = line.substring(6, 8).toInt(radix = 16)
+                            val rpm = (line.substring(12, 14).toInt(radix = 16) * 256 + line.substring(15, 17).toInt(radix = 16)) / 4
+                            val time = System.currentTimeMillis()
+                            model.drag(Drag(speed, rpm, time))
+                        }
+                    }
                     line.length > 4 && line.substring(0, 5) == RESPONSE_RPM -> {
-                        if (line.length > 10) model.textSpeed((line.substring(6, 8).toInt(radix = 16) * 256 + line.substring(9, 11).toInt(radix = 16)) / 4)
+                        if (line.length > 10) model.rpm((line.substring(6, 8).toInt(radix = 16) * 256 + line.substring(9, 11).toInt(radix = 16)) / 4)
                     }
                     line.length > 4 && line.substring(0, 5) == RESPONSE_SPEED -> {
-                        if (line.length > 7) model.textSpeed(line.substring(6, 8).toInt(radix = 16))
+                        if (line.length > 7) model.speed(line.substring(6, 8).toInt(radix = 16))
                     }
                     line.length > 8 && line.substring(0, 9) == RESPONSE_ERROR -> {
                         // TODO auto not start
@@ -509,7 +515,6 @@ class MainActivity : AppCompatActivity() {
                     line.length > 6 && line.substring(0, 7) == RESPONSE_NO_DATA -> {
                         // TODO auto not start
                     }
-                    else -> model.consoleBluetooth("unknown line - $line")
                 }
             }
         }
@@ -541,18 +546,27 @@ class MainActivity : AppCompatActivity() {
         const val MESSAGE_READ_ERROR = "message_read_error"
         const val MESSAGE_WRITE = "message_write"
         const val MESSAGE_WRITE_ERROR = "message_write_error"
-        const val SERVICE_MESSAGES = "message_send"
+        const val SERVICE_MESSAGES = "service_messages"
         const val COMMAND_DEFAULT = "AT D"
         const val COMMAND_ECHO_ON = "AT E1"
         const val COMMAND_LINEFEED_ON ="AT L1"
         const val COMMAND_RPM = "01 0C"
         const val COMMAND_SPEED = "01 0D"
+        const val COMMAND_SPEED_RPM = "01 0D 0C"
         const val RESPONSE_PROMPT = ">"
         const val RESPONSE_OK = "OK"
         const val RESPONSE_ERROR = "CAN ERROR"
         const val RESPONSE_NO_DATA = "NO DATA"
         const val RESPONSE_RPM = "41 0C"
         const val RESPONSE_SPEED = "41 0D"
+        const val RESPONSE_AND_RPM = " 0C"
+        const val FIREBASE_USERS = "users"
+        const val FIREBASE_CARS = "cars"
+        const val POINTS_X = "pointsX"
+        const val POINTS_Y = "pointsY"
+        const val COUNT_TESTING_RATIO = 10
+        const val FORMAT_RATIO = "%5.2f"
+        const val RATIO_SCATTER = 0.03f
         val MY_UUID: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
     }
 }

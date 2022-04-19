@@ -13,6 +13,8 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import ru.ircoder.dynolite.MainActivity.Companion.MESSAGE_CONNECTED
 import ru.ircoder.dynolite.MainActivity.Companion.MESSAGE_DISCONNECTED
 import ru.ircoder.dynolite.MainActivity.Companion.MESSAGE_READ

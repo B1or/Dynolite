@@ -15,10 +15,35 @@
         android:id="@+id/navigation_garage"
         android:name="ru.ircoder.dynolite.GarageFragment"
         android:label="@string/title_garage"
-        tools:layout="@layout/fragment_garage" />
+        tools:layout="@layout/fragment_garage" >
+        <action
+            android:id="@+id/action_car_add"
+            app:destination="@id/navigation_car_add" />
+        <action
+            android:id="@+id/action_car_edit"
+            app:destination="@id/navigation_car_edit" />
+        <action
+            android:id="@+id/action_car_use"
+            app:destination="@id/navigation_car_use" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
         android:name="ru.ircoder.dynolite.SettingsFragment"
         android:label="@string/title_settings" />
+    <fragment
+        android:id="@+id/navigation_car_add"
+        android:name="ru.ircoder.dynolite.AddCarFragment"
+        android:label="@string/title_car_add"
+        tools:layout="@layout/fragment_car_add" />
+    <fragment
+        android:id="@+id/navigation_car_edit"
+        android:name="ru.ircoder.dynolite.EditCarFragment"
+        android:label="@string/title_car_edit"
+        tools:layout="@layout/fragment_car_edit" />
+    <fragment
+        android:id="@+id/navigation_car_use"
+        android:name="ru.ircoder.dynolite.UseCarFragment"
+        android:label="@string/title_car_use"
+        tools:layout="@layout/fragment_car_use" />
 </navigation>

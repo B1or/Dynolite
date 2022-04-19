@@ -1,3 +1,10 @@
 package ru.ircoder.dynolite
 
-data class User(val name: String = "", val phone: String = "", val uid: String = "")
+data class User(var uid: String = "", var name: String = "", var phone: String = "")
+
+/*
+Пользователь:
+uid - уникальный код.
+name - имя.
+phone - номер телефона.
+*/

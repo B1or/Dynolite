@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,8 +13,9 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
+import ru.ircoder.dynolite.MainActivity.Companion.FIREBASE_USERS
 import ru.ircoder.dynolite.databinding.FragmentUsersBinding
-import ru.ircoder.dynolite.databinding.ItemUserBinding
+import ru.ircoder.dynolite.databinding.ItemUsersBinding
 
 class UsersFragment : Fragment() {
 
@@ -29,10 +29,6 @@ class UsersFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentUsersBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val textView: TextView = binding.textUsers
-        model.textUsers.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 
@@ -60,40 +56,47 @@ class UsersFragment : Fragment() {
     }
 
     private fun checkUser(user: FirebaseUser) {
-        val reference = firebaseDatabase.reference.child("users").child(user.uid)
-        reference.get()
+        val reference = firebaseDatabase.reference
+        val queryUser = reference.child(FIREBASE_USERS).child(user.uid)
+        queryUser.get()
             .addOnSuccessListener {
                 if (it.exists()) listUser()
-                else reference.child("name").setValue(user.displayName)
-                    .addOnSuccessListener {
-                        reference.child("phone").setValue(user.phoneNumber).addOnSuccessListener {
+                else {
+                    val queryUsers = reference.child(FIREBASE_USERS)
+                    val uid = user.uid
+                    queryUsers.child(uid).setValue(User(uid, user.displayName ?: "", user.phoneNumber ?: ""))
+                        .addOnSuccessListener {
                             listUser()
                         }
-                    }
+                }
             }
     }
 
     private fun listUser() {
         binding.rvUsers.layoutManager = LinearLayoutManager(this.context)
-        val query = firebaseDatabase.reference.child("users")
+        val query = firebaseDatabase.reference.child(FIREBASE_USERS)
         val options = FirebaseRecyclerOptions.Builder<User>()
             .setQuery(query, User::class.java)
             .setLifecycleOwner(this)
             .build()
+
         adapter = object : FirebaseRecyclerAdapter<User, UserViewHolder>(options) {
+
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
-                val binding = ItemUserBinding.inflate(inflater)
+                val binding = ItemUsersBinding.inflate(inflater)
                 return UserViewHolder(binding)
             }
+
             override fun onBindViewHolder(holder: UserViewHolder, position: Int, model: User) {
                 holder.bind(model)
             }
         }
+
         binding.rvUsers.adapter = adapter
     }
 
-    class UserViewHolder(private val binding: ItemUserBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class UserViewHolder(private val binding: ItemUsersBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             with(binding) {
                 tvUserName.text = user.name

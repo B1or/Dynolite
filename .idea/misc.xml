@@ -7,16 +7,28 @@
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.424" />
         <entry key="app/src/main/res/drawable/ic_bluetooth_black_24dp.xml" value="0.424" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.424" />
+        <entry key="app/src/main/res/drawable/ic_delete_black_24dp.xml" value="0.424" />
+        <entry key="app/src/main/res/drawable/ic_edit_black_24dp.xml" value="0.424" />
         <entry key="app/src/main/res/drawable/ic_garage_black_24dp.xml" value="0.424" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.424" />
+        <entry key="app/src/main/res/drawable/ic_more_vert_black_24dp.xml" value="0.239" />
         <entry key="app/src/main/res/drawable/ic_people_black_24dp.xml" value="0.424" />
+        <entry key="app/src/main/res/drawable/ic_play_arrow_black_24dp.xml" value="0.424" />
         <entry key="app/src/main/res/drawable/ic_settings_black_24dp.xml" value="0.424" />
+        <entry key="app/src/main/res/layout/activity_graph.xml" value="0.42552083333333335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/fragment_add_car.xml" value="0.2328125" />
+        <entry key="app/src/main/res/layout/fragment_car_add.xml" value="0.42552083333333335" />
+        <entry key="app/src/main/res/layout/fragment_car_edit.xml" value="0.42552083333333335" />
+        <entry key="app/src/main/res/layout/fragment_car_use.xml" value="0.42552083333333335" />
         <entry key="app/src/main/res/layout/fragment_garage.xml" value="0.42552083333333335" />
         <entry key="app/src/main/res/layout/fragment_users.xml" value="0.42552083333333335" />
         <entry key="app/src/main/res/layout/item_car.xml" value="0.42552083333333335" />
+        <entry key="app/src/main/res/layout/item_cars.xml" value="0.2328125" />
         <entry key="app/src/main/res/layout/item_user.xml" value="0.42552083333333335" />
+        <entry key="app/src/main/res/layout/item_users.xml" value="0.42552083333333335" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2328125" />
+        <entry key="app/src/main/res/menu/item_menu.xml" value="0.42552083333333335" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.42552083333333335" />
         <entry key="app/src/main/res/xml/preferences.xml" value="0.42552083333333335" />
       </map>

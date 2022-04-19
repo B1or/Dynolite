@@ -5,25 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {
-    private val _textUsers = MutableLiveData<String>().apply {
-        value = "This is users Fragment"
+    private val _drag = MutableLiveData<Drag>().apply {
+        value = Drag(0, 0, 0)
     }
-    private val _textGarage = MutableLiveData<String>().apply {
-        value = "This is garage Fragment"
+    val drag: LiveData<Drag> = _drag
+    fun drag(drag: Drag) {
+        _drag.value = drag
     }
-    private val _textSpeed = MutableLiveData<Int>().apply {
-        value = 0
+    fun speed(speed: Int) {
+        _drag.value!!.speed = speed
     }
-    val textUsers: LiveData<String> = _textUsers
-    val textGarage: LiveData<String> = _textGarage
-    val textSpeed: LiveData<Int> = _textSpeed
-    fun textUsers(text: String) {
-        _textUsers.value = text
-    }
-    fun consoleBluetooth(appendText: String) {
-        _textUsers.value = textUsers.value + "\n" + appendText
-    }
-    fun textSpeed(speed: Int) {
-        _textSpeed.value = speed
+    fun rpm(rpm: Int) {
+        _drag.value!!.rpm = rpm
     }
 }
