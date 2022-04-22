@@ -51,4 +51,6 @@
     <string name="weight_">Weight, kg:</string>
     <string name="area_">Cross-sectional area, sq. m:</string>
     <string name="coef_">Air resistance coeff:</string>
+    <string name="unit_rpm">rpm x100</string>
+    <string name="unit_speed">km/h</string>
 </resources>

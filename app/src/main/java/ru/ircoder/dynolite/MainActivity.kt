@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var menuItemDisconnect: MenuItem
     private val looperCommand = COMMAND_SPEED_RPM
     private var currentCommand = ""
+    private var oldSpeed = 0
+    private var oldRpm = 0
 
     private val enableBluetoothLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) checkHardwareAddress()
@@ -184,7 +186,14 @@ class MainActivity : AppCompatActivity() {
             bindService(intent, connection, Context.BIND_AUTO_CREATE)
         }
         model.drag.observe(this) { speedRpm ->
-            "${speedRpm.speed} ${speedRpm.rpm}".also { binding.tvSpeedo.text = it }
+            if (speedRpm.speed != oldSpeed) {
+                binding.svSpeedo.speedTo(speedRpm.speed.toFloat(), 500)
+                oldSpeed = speedRpm.speed
+            }
+            if ((speedRpm.rpm / 100) != oldRpm) {
+                binding.svRpm.speedTo(speedRpm.rpm / 100f, 500)
+                oldRpm = speedRpm.rpm / 100
+            }
         }
         binding.fabBluetooth.setOnClickListener {
             binding.fabBluetooth.isEnabled = false

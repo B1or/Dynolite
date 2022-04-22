@@ -6,6 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glSpeedo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cvSpeedo"
         style="@style/SpeedoStyle"
@@ -13,17 +20,54 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/glSpeedo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvSpeedo"
+        <com.github.anastr.speedviewlib.DeluxeSpeedView
+            android:id="@+id/svSpeedo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            tools:text="63" />
+            app:sv_maxSpeed="210"
+            app:sv_speedBackgroundColor="@android:color/transparent"
+            app:sv_speedTextColor="@color/white"
+            app:sv_speedTextFormat="INTEGER"
+            app:sv_speedTextSize="14dp"
+            app:sv_textSize="10dp"
+            app:sv_unit="@string/unit_speed"
+            app:sv_unitTextColor="@color/white"
+            app:sv_unitTextSize="8dp"
+            app:sv_unitUnderSpeedText="true" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvRpm"
+        style="@style/SpeedoStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/glSpeedo"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.github.anastr.speedviewlib.SpeedView
+            android:id="@+id/svRpm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:sv_maxSpeed="70"
+            app:sv_speedTextFormat="INTEGER"
+            app:sv_speedTextSize="14dp"
+            app:sv_textSize="10dp"
+            app:sv_unit="@string/unit_rpm"
+            app:sv_unitTextSize="8dp"
+            app:sv_unitUnderSpeedText="true" />
+
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

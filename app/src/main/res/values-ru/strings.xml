@@ -51,4 +51,6 @@
     <string name="weight_">Вес, кг:</string>
     <string name="area_">Поперечное сечение, кв. м:</string>
     <string name="coef_">Коэфф. сопрот. воздуха:</string>
+    <string name="unit_rpm">об/мин x100</string>
+    <string name="unit_speed">км/ч</string>
 </resources>

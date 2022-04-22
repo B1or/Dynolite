@@ -12,8 +12,8 @@ android {
         applicationId "ru.ircoder.dynolite"
         minSdk 24
         targetSdk 31
-        versionCode 15
-        versionName "0.11"
+        versionCode 16
+        versionName "0.12"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
     implementation 'com.firebaseui:firebase-ui-database:8.0.0'
     implementation 'com.jjoe64:graphview:4.2.2'
+    implementation 'com.github.anastr:speedviewlib:1.6.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
