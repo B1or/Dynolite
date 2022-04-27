@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
@@ -21,15 +20,13 @@ class UsersFragment : Fragment() {
 
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
-    private val model: SharedViewModel by activityViewModels()
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     private var adapter: FirebaseRecyclerAdapter<User, UserViewHolder>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentUsersBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -39,6 +36,7 @@ class UsersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.rvUsers.layoutManager = LinearLayoutManager(this.context)
         firebaseAuth.addAuthStateListener {
             val listenedUser = it.currentUser
             if (listenedUser != null) checkUser(listenedUser)
@@ -73,7 +71,6 @@ class UsersFragment : Fragment() {
     }
 
     private fun listUser() {
-        binding.rvUsers.layoutManager = LinearLayoutManager(this.context)
         val query = firebaseDatabase.reference.child(FIREBASE_USERS)
         val options = FirebaseRecyclerOptions.Builder<User>()
             .setQuery(query, User::class.java)
@@ -93,7 +90,7 @@ class UsersFragment : Fragment() {
             }
         }
 
-        binding.rvUsers.adapter = adapter
+        if (_binding != null) binding.rvUsers.adapter = adapter
     }
 
     inner class UserViewHolder(private val binding: ItemUsersBinding): RecyclerView.ViewHolder(binding.root) {

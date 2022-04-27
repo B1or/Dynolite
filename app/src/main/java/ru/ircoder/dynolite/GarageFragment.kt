@@ -2,6 +2,7 @@ package ru.ircoder.dynolite
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import ru.ircoder.dynolite.MainActivity.Companion.FIREBASE_CARS
 import ru.ircoder.dynolite.MainActivity.Companion.FIREBASE_USERS
+import ru.ircoder.dynolite.MainActivity.Companion.TAG
 import ru.ircoder.dynolite.databinding.FragmentGarageBinding
 import ru.ircoder.dynolite.databinding.ItemCarsBinding
 
@@ -41,7 +43,10 @@ class GarageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth.addAuthStateListener { it ->
             user = it.currentUser
-            user?.let { listCar(it, view) }
+            user?.let {
+                Log.d(TAG, "user.uid: ${user!!.uid}")
+                listCar(it)
+            }
         }
     }
 
@@ -60,7 +65,7 @@ class GarageFragment : Fragment() {
         adapter?.stopListening()
     }
 
-    private fun listCar(user: FirebaseUser, view: View) {
+    private fun listCar(user: FirebaseUser) {
         binding.rvCars.layoutManager = LinearLayoutManager(this.context)
         uidUser = user.uid
         val query = firebaseDatabase.reference.child(FIREBASE_USERS).child(uidUser).child(FIREBASE_CARS)

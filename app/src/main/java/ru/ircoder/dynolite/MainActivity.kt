@@ -231,7 +231,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.exit -> {
                 stopService(intentService)
-                throw RuntimeException("Test Crash 4") // Force a crash
+                // throw RuntimeException("Test Crash 4") // Force a crash
                 finish()
                 true
             }

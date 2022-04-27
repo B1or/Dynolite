@@ -12,8 +12,8 @@ android {
         applicationId "ru.ircoder.dynolite"
         minSdk 24
         targetSdk 31
-        versionCode 16
-        versionName "0.12"
+        versionCode 17
+        versionName "0.13"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
